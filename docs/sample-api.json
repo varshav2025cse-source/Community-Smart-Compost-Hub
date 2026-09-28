@@ -1,0 +1,30 @@
+{
+  "createDigester": {
+    "name":"Bio-Digester Unit 03",
+    "targetTemperature":56,
+    "currentTemperature":54,
+    "minSafetyTemperature":45,
+    "active":true
+  },
+  "createIntake": {
+    "intakeDate":"2026-09-25",
+    "source":"Community Zone A",
+    "weightKg":850,
+    "contractor":"EcoWaste Collectors",
+    "status":"RECEIVED"
+  },
+  "createBatch": {
+    "batchCode":"BATCH-2026-001",
+    "startDate":"2026-09-25",
+    "wasteInputKg":850,
+    "fertilizerOutputKg":340,
+    "status":"COMPLETED"
+  },
+  "createSalesOrder": {
+    "orderDate":"2026-09-25",
+    "customer":"Green Valley Farms",
+    "quantityKg":200,
+    "unitPrice":18,
+    "status":"DELIVERED"
+  }
+}

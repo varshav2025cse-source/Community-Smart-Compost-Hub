@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Smart Compost Hub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="sidebar">
+      <div class="brand-box">
+        <div class="brand-icon">♻</div>
+        <div>
+          <div class="brand-name">Compost Hub</div>
+          <small>Smart circular system</small>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-view="overview">Overview</button>
+        <button class="nav-item" data-view="operations">Operations</button>
+        <button class="nav-item" data-view="production">Production</button>
+        <button class="nav-item" data-view="finance">Finance</button>
+        <button class="nav-item" data-view="supply">Supply Chain</button>
+        <button class="nav-item" data-view="impact">Impact</button>
+      </nav>
+
+      <div class="sidebar-card">
+        <span class="label">System Health</span>
+        <div class="health-row">
+          <span class="dot green"></span>
+          <strong>All systems online</strong>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Community circular economy</p>
+          <h1>Smart Compost Command Center</h1>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-btn">Export</button>
+          <button class="ghost-btn" id="themeToggle">Dark mode</button>
+          <button class="primary-btn" id="quickReportBtn">Generate report</button>
+        </div>
+      </header>
+
+      <div class="filter-row">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="Production">Production</button>
+        <button class="filter-chip" data-filter="Finance">Finance</button>
+        <button class="filter-chip" data-filter="Collection">Collection</button>
+        <button class="filter-chip" data-filter="System">System</button>
+      </div>
+
+      <section id="overview" class="dashboard-panel active-panel">
+        <div class="status-line">
+          <span class="chip chip-green"><span class="dot"></span> System online</span>
+          <span class="chip"><span class="dot blue"></span> <span id="statusDigesters">0</span> active digesters</span>
+          <span class="chip"><span class="dot amber"></span> <span id="statusLiability">₹0.00</span> vendor due</span>
+        </div>
+
+        <div class="cards-grid cards-5">
+          <article class="metric-card primary">
+            <div class="metric-label">Digesters</div>
+            <div class="metric-value" id="digesters">0</div>
+            <div class="metric-trend positive">+2 this cycle</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">Waste Intakes</div>
+            <div class="metric-value" id="intakes">0</div>
+            <div class="metric-trend neutral">Daily collection</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">Fertilizer Produced</div>
+            <div class="metric-value"><span id="produced">0</span> <small>kg</small></div>
+            <div class="metric-trend positive">High yield</div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-label">Sales Revenue</div>
+            <div class="metric-value" id="revenue">₹0.00</div>
+            <div class="metric-trend positive">Cash inflow</div>
+          </article>
+          <article class="metric-card warning">
+            <div class="metric-label">Open Vendor Liability</div>
+            <div class="metric-value" id="liability">₹0.00</div>
+            <div class="metric-trend warning">Needs review</div>
+          </article>
+        </div>
+
+        <div class="analytics-grid">
+          <div class="panel-box">
+            <div class="box-header">
+              <h3>Operations snapshot</h3>
+              <span class="tiny-tag success">Live</span>
+            </div>
+            <div class="bars">
+              <div class="bar-group">
+                <label>Waste intake</label>
+                <div class="bar"><span style="width: 72%"></span></div>
+              </div>
+              <div class="bar-group">
+                <label>Processing</label>
+                <div class="bar"><span style="width: 58%"></span></div>
+              </div>
+              <div class="bar-group">
+                <label>Seasonal output</label>
+                <div class="bar"><span style="width: 84%"></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-box">
+            <div class="box-header">
+              <h3>Recent activity</h3>
+              <span class="tiny-tag">Today</span>
+            </div>
+            <ul id="activityList" class="activity-list"></ul>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="panel-box">
+            <div class="box-header">
+              <h3>Production trend</h3>
+              <span class="tiny-tag success">Live</span>
+            </div>
+            <canvas id="productionChart" height="180"></canvas>
+          </div>
+
+          <div class="panel-box">
+            <div class="box-header">
+              <h3>Revenue mix</h3>
+              <span class="tiny-tag">Monthly</span>
+            </div>
+            <canvas id="revenueChart" height="180"></canvas>
+          </div>
+        </div>
+
+        <div class="panel-box wide-box">
+          <div class="box-header">
+            <h3>Recent operational updates</h3>
+            <span class="tiny-tag success">Updated</span>
+          </div>
+          <table class="table-grid">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="operations" class="dashboard-panel">
+        <div class="section-header">
+          <h2>Operations Dashboard</h2>
+          <button class="small-btn">Refresh</button>
+        </div>
+        <div class="forms-grid">
+          <form id="intakeForm">
+            <h3>Organic Waste Intake</h3>
+            <input id="source" placeholder="Source / Community" required />
+            <input id="weight" type="number" min="0" step="0.1" placeholder="Weight (kg)" required />
+            <input id="contractor" placeholder="Contractor" />
+            <button type="submit">Log Intake</button>
+          </form>
+
+          <form id="digesterForm">
+            <h3>Add Bio-Digester</h3>
+            <input id="dname" placeholder="Unit name" required />
+            <input id="target" type="number" step="0.1" placeholder="Target °C" required />
+            <input id="current" type="number" step="0.1" placeholder="Current °C" required />
+            <input id="min" type="number" step="0.1" placeholder="Minimum safe °C" required />
+            <button type="submit">Add Digester</button>
+          </form>
+
+          <form id="batchForm">
+            <h3>Complete Compost Batch</h3>
+            <input id="code" placeholder="Batch code" required />
+            <input id="inputkg" type="number" min="0" step="0.1" placeholder="Waste input kg" required />
+            <input id="outputkg" type="number" min="0" step="0.1" placeholder="Fertilizer output kg" required />
+            <button type="submit">Save Batch</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="production" class="dashboard-panel">
+        <div class="section-header">
+          <h2>Production Dashboard</h2>
+          <button class="small-btn">View details</button>
+        </div>
+        <div class="cards-grid cards-4">
+          <article class="mini-card"><span>Processing rate</span><strong id="processingRate">0 kg</strong></article>
+          <article class="mini-card"><span>Batch count</span><strong id="batchCount">0</strong></article>
+          <article class="mini-card"><span>Output efficiency</span><strong>84%</strong></article>
+          <article class="mini-card"><span>Energy use</span><strong>1.8 MWh</strong></article>
+        </div>
+        <div class="panel-box wide-box">
+          <div class="box-header">
+            <h3>Production trend</h3>
+            <span class="tiny-tag success">Updated</span>
+          </div>
+          <div class="sparkline">
+            <span style="height: 35%"></span>
+            <span style="height: 52%"></span>
+            <span style="height: 61%"></span>
+            <span style="height: 58%"></span>
+            <span style="height: 80%"></span>
+            <span style="height: 76%"></span>
+            <span style="height: 92%"></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="finance" class="dashboard-panel">
+        <div class="section-header">
+          <h2>Finance Dashboard</h2>
+          <button class="small-btn">Sync ledger</button>
+        </div>
+        <div class="cards-grid cards-4">
+          <article class="mini-card"><span>Revenue</span><strong id="financeRevenue">₹0.00</strong></article>
+          <article class="mini-card"><span>Expenses</span><strong>₹22,400.00</strong></article>
+          <article class="mini-card"><span>Gross Margin</span><strong>38%</strong></article>
+          <article class="mini-card"><span>Cash Flow</span><strong>₹18,650.00</strong></article>
+        </div>
+        <div class="panel-box wide-box">
+          <div class="box-header">
+            <h3>Cash flow overview</h3>
+            <span class="tiny-tag">Monthly</span>
+          </div>
+          <div class="balance-stack">
+            <div class="stack-item positive"><span>Income</span><strong>₹84,500</strong></div>
+            <div class="stack-item negative"><span>Costs</span><strong>₹52,100</strong></div>
+            <div class="stack-item neutral"><span>Net</span><strong>₹32,400</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="supply" class="dashboard-panel">
+        <div class="section-header">
+          <h2>Supply Chain Dashboard</h2>
+          <button class="small-btn">Track vendors</button>
+        </div>
+        <div class="cards-grid cards-4">
+          <article class="mini-card"><span>Suppliers</span><strong>12</strong></article>
+          <article class="mini-card"><span>Open Bills</span><strong id="vendorBills">₹0.00</strong></article>
+          <article class="mini-card"><span>On-time delivery</span><strong>96%</strong></article>
+          <article class="mini-card"><span>Materials</span><strong>1,440 kg</strong></article>
+        </div>
+        <div class="panel-box wide-box">
+          <div class="box-header">
+            <h3>Supplier performance</h3>
+            <span class="tiny-tag">Q3</span>
+          </div>
+          <table class="table-grid">
+            <thead>
+              <tr><th>Supplier</th><th>Rate</th><th>Lead time</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Green Valley</td><td>4.9</td><td>2 days</td><td class="good">Healthy</td></tr>
+              <tr><td>Urban Compost Co.</td><td>4.7</td><td>3 days</td><td class="good">Healthy</td></tr>
+              <tr><td>EcoCycle Labs</td><td>4.5</td><td>5 days</td><td class="warn">Watch</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="impact" class="dashboard-panel">
+        <div class="section-header">
+          <h2>Impact Dashboard</h2>
+          <button class="small-btn">Community report</button>
+        </div>
+        <div class="cards-grid cards-4">
+          <article class="mini-card"><span>Waste diverted</span><strong>2.8 tons</strong></article>
+          <article class="mini-card"><span>CO₂ avoided</span><strong>1.6 t</strong></article>
+          <article class="mini-card"><span>Households served</span><strong>208</strong></article>
+          <article class="mini-card"><span>Fertilizer sold</span><strong id="fertilizerSold">0 kg</strong></article>
+        </div>
+        <div class="panel-box wide-box">
+          <div class="box-header">
+            <h3>Community impact</h3>
+            <span class="tiny-tag success">Positive</span>
+          </div>
+          <div class="impact-row">
+            <div>
+              <small>Organic waste processed</small>
+              <strong>89%</strong>
+            </div>
+            <div>
+              <small>Local community reuse</small>
+              <strong>74%</strong>
+            </div>
+            <div>
+              <small>Waste-to-soil conversion</small>
+              <strong>91%</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel reports-panel">
+        <h2>Reports</h2>
+        <div class="report-buttons">
+          <button type="button" data-report="pl">P&L</button>
+          <button type="button" data-report="budget">Budget</button>
+          <button type="button" data-report="balance">Balance Sheet</button>
+        </div>
+        <div class="report-card">
+          <pre id="report">Select a report to view live operating metrics.</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
